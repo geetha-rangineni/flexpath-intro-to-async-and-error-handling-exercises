@@ -42,7 +42,26 @@ function exercise_01() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  // Synchronous function
+  function logNumbersSync() {
+    for (let i = 1; i <= 5; i++) {
+      console.log(i);
+    }
+  }
+
+  logNumbersSync();
+  // Outputs: 1 2 3 4 5 immediately
+// Asynchronous function
+function logNumbersAsync() {
+  for (let i = 1; i <= 5; i++) {
+    setTimeout(() => {
+      console.log(i);
+    }, i * 1000);
+  }
+}
+
+logNumbersAsync();
+// Outputs: 1 2 3 4 5 with 1-second intervals
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -61,7 +80,27 @@ function exercise_02() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  function fetchData(callback) {
+    // Simulate a delay of 2 seconds (2000 milliseconds)
+    setTimeout(() => {
+        // Simulated data that would be "fetched"
+        const data = {
+            id: 1,
+            name: "John Doe",
+            age: 30
+        };
+        
+        // Call the callback function with the fetched data
+        callback(data);
+    }, 2000);
+}
+
+
+// Example of how to use the fetchData function
+fetchData((data) => {
+    console.log("Data fetched:", data);
+});
+//Data fetched: { id: 1, name: 'John Doe', age: 30 }
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -81,8 +120,33 @@ function exercise_03() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  function readFile(filename, callback) {
+    setTimeout(() => {
+        if (filename === "data.txt") {
+            callback(null, "File content");
+        } else {
+            callback(new Error("File not found"));
+        }
+    }, 1000);
+}
 
+// Example usage
+readFile("data.txt", (err, content) => {
+    if (err) {
+        console.error(err.message);
+    } else {
+        console.log(content); // Outputs after 1 second: File content
+    }
+});
+
+readFile("missing.txt", (err, content) => {
+    if (err) {
+        console.error(err.message); // Outputs after 1 second: File not found
+    } else {
+        console.log(content);
+    }
+});
+//  // Outputs after 1 second: File not found
   // CODE IN THE OPEN LINES ABOVE
 }
 
@@ -99,8 +163,39 @@ function exercise_04() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  function task1(callback) {
+    setTimeout(() => {
+        console.log("Task 1 completed");
+        callback();
+    }, 1000);
+}
 
+function task2(callback) {
+    setTimeout(() => {
+        console.log("Task 2 completed");
+        callback();
+    }, 1000);
+}
+
+function task3(callback) {
+    setTimeout(() => {
+        console.log("Task 3 completed");
+        callback();
+    }, 1000);
+}
+
+// Simulating callback hell
+task1(() => {
+    task2(() => {
+        task3(() => {
+            console.log("All tasks completed");
+        });
+    });
+});
+// Task 1 completed
+//Task 2 completed
+//Task 3 completed
+//All tasks completed
   // CODE IN THE OPEN LINES ABOVE
 }
 
@@ -117,8 +212,35 @@ function exercise_05() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  function readFilePromise(filename) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (filename === "data.txt") {
+                resolve("File content");
+            } else {
+                reject(new Error("File not found"));
+            }
+        }, 1000);
+    });
+}
 
+// Example usage
+readFilePromise("data.txt")
+    .then((content) => {
+        console.log(content); // Outputs after 1 second: File content
+    })
+    .catch((err) => {
+        console.error(err.message);
+    });
+
+readFilePromise("missing.txt")
+    .then((content) => {
+        console.log(content);
+    })
+    .catch((err) => {
+        console.error(err.message); // Outputs after 1 second: File not found
+    });
+    // // Outputs after 1 second: File not found
   // CODE IN THE OPEN LINES ABOVE
 }
 
@@ -136,7 +258,45 @@ function exercise_06() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  function task1() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log("Task 1 completed");
+            resolve();
+        }, 1000);
+    });
+}
+
+function task2() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log("Task 2 completed");
+            resolve();
+        }, 1000);
+    });
+}
+
+function task3() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log("Task 3 completed");
+            resolve();
+        }, 1000);
+    });
+}
+
+// Chaining the promises to execute sequentially
+task1()
+    .then(() => task2())
+    .then(() => task3())
+    .then(() => {
+        console.log("All tasks completed");
+    });
+    //output
+    //Task 1 completed
+    //Task 2 completed
+    //Task 3 completed
+    //All tasks completed
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -154,8 +314,48 @@ async function exercise_07() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  
+  function task1() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log("Task 1 completed");
+            resolve();
+        }, 1000);
+    });
+}
 
+function task2() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log("Task 2 failed");
+            reject(new Error("Task 2 failed"));
+        }, 1000);
+    });
+}
+
+function task3() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log("Task 3 completed");
+            resolve();
+        }, 1000);
+    });
+}
+
+// Chaining the promises to execute sequentially with error handling
+task1()
+    .then(() => task2())
+    .then(() => task3())
+    .then(() => {
+        console.log("All tasks completed");
+    })
+    .catch((err) => {
+        console.error("Error:", err.message); // Handles the error from task2
+    });
+    //output
+    //Task 1 completed
+    //Task 2 failed
+    //Error: Task 2 failed
   // CODE IN THE OPEN LINES ABOVE
 }
 
@@ -173,7 +373,53 @@ async function exercise_08() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  function task1() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log("Task 1 completed");
+            resolve();
+        }, 1000);
+    });
+}
+
+function task2() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log("Task 2 failed");
+            reject(new Error("Task 2 failed"));
+        }, 1000);
+    });
+}
+
+function task3() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log("Task 3 completed");
+            resolve();
+        }, 1000);
+    });
+}
+
+// Chaining the promises to execute sequentially with error handling and a .finally() block
+task1()
+    .then(() => task2())
+    .then(() => task3())
+    .then(() => {
+        console.log("All tasks completed");
+    })
+    .catch((err) => {
+        console.error("Error:", err.message); // Handles the error from task2
+    })
+    .finally(() => {
+        console.log("Process finished"); // Executes regardless of success or failure
+    });
+    
+
+    //output
+    //Task 1 completed
+//Task 2 failed
+//Error: Task 2 failed
+//Process finished
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -192,8 +438,48 @@ async function exercise_09() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  function task1() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log("Task 1 completed");
+            resolve();
+        }, 1000);
+    });
+}
 
+function task2() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log("Task 2 completed");
+            resolve();
+        }, 1000);
+    });
+}
+
+function task3() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log("Task 3 completed");
+            resolve();
+        }, 1000);
+    });
+}
+
+// Using async/await to execute tasks sequentially
+async function executeTasks() {
+    await task1();
+    await task2();
+    await task3();
+    console.log("All tasks completed");
+}
+
+// Call the async function to execute the tasks
+executeTasks();
+//output
+//Task 1 completed
+//Task 2 completed
+//Task 3 completed
+//All tasks completed
   // CODE IN THE OPEN LINES ABOVE
 }
 
@@ -214,7 +500,53 @@ async function exercise_10() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  function task1() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log("Task 1 completed");
+        resolve();
+      }, 1000);
+    });
+  }
+
+  function task2() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        console.log("Task 2 failed");
+        reject(new Error("Task 2 failed"));
+      }, 1000);
+    });
+  }
+
+  function task3() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log("Task 3 completed");
+        resolve();
+      }, 1000);
+    });
+  }
+
+  async function runTasks() {
+    try {
+      await task1();
+      await task2(); // This will throw an error
+      await task3();
+      console.log("All tasks completed");
+    } catch (err) {
+      console.error("Error:", err.message);
+    } finally {
+      console.log("Process finished");
+    }
+  }
+
+  runTasks();
+
+    // Outputs:
+  // (after 1 second) Task 1 completed
+  // (after 2 seconds) Task 2 failed
+  // Error: Task 2 failed
+  // Process finished
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -234,7 +566,38 @@ async function exercise_11() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  function checkPositiveNumber(number) {
+    if (number < 0) {
+      throw new Error("Number must be positive");
+    }
+    return number;
+  }
+
+  async function fetchData(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return response.json();
+  }
+
+  try {
+    checkPositiveNumber(-5);
+  } catch (err) {
+    console.error("Synchronous error:", err.message);
+  }
+
+  (async () => {
+    try {
+      const data = await fetchData("https://invalid.url");
+      console.log(data);
+    } catch (err) {
+      console.error("Asynchronous error:", err.message);
+    }
+  })();
+  // Output:
+  // Synchronous error: Number must be positive
+  // Asynchronous error: request to https://invalid.url/ failed, reason: getaddrinfo ENOTFOUND invalid.url
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -254,7 +617,33 @@ function exercise_12() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  class ValidationError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "ValidationError"; // Custom name for the error
+    }
+}
+
+// Function to check if the number is positive
+function checkPositiveNumber(number) {
+    if (number < 0) {
+        throw new ValidationError("Number must be positive");
+    }
+    return number;
+}
+
+// Handling the error
+try {
+    checkPositiveNumber(-5);
+} catch (err) {
+    if (err instanceof ValidationError) {
+        console.error("Validation error:", err.message);
+    } else {
+        console.error("Unexpected error:", err.message);
+    }
+}
+   // output:
+   //Validation error: Number must be positive
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -276,7 +665,15 @@ function exercise_13() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  
+  fs.readFile("./exercise_example.txt", "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err.message);
+    } else {
+      console.log("File contents:", data);
+    }
+  });
+      // Outputs the contents of exercise_example.txt or an error message
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -297,11 +694,19 @@ function exercise_14() {
   
   */
   // CODE IN THE OPEN LINES BELOW
+  (async () => {
+    try {
+      const data = await fsPromises.readFile("exercise_example.txt", "utf8");
+      console.log("File contents:", data);
+    } catch (err) {
+      console.error("Error reading file:", err.message);
+    }
+  })();
 
-  let placeholder = "Delete me and code here";
 
   // CODE IN THE OPEN LINES ABOVE
 }
+  // Outputs the contents of example.txt or an error message
 
 async function exercise_15() {
   /* 
@@ -321,7 +726,19 @@ async function exercise_15() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  async function copyFile(source, destination) {
+    try {
+      const data = await fsPromises.readFile(source, "utf8");
+      await fsPromises.writeFile(destination, data, "utf8");
+      console.log(`Copied content from ${source} to ${destination}`);
+    } catch (err) {
+      console.error("Error:", err.message);
+    }
+  }
+
+  copyFile("source.txt", "destination.txt");
+   // Outputs success message or error
+  // CODE IN THE OPEN LINES ABOVE
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -341,7 +758,10 @@ function exercise_16() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  fetch("https://jsonplaceholder.typicode.com/todos/1")
+    .then((response) => response.json())
+    .then((data) => console.log("Fetched data:", data))
+    .catch((error) => console.error("Error:", error.message));
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -387,7 +807,24 @@ function exercise_17() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  function retry(fn, retries) {
+    let attempt = 0;
+    function execute() {
+      try {
+        fn();
+      } catch (error) {
+        if (attempt < retries) {
+          attempt++;
+          console.log(`Retrying... (${attempt})`);
+          execute();
+        } else {
+          console.error("Failed after retries:", error.message);
+        }
+      }
+    }
+    execute();
+  }
+  retry(errorProneFunction, 3);
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -415,7 +852,11 @@ function exercise_18() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  const promise1 = sleep(1000).then(() => "First Promise");
+  const promise2 = sleep(1000).then(() => "Second Promise");
+  Promise.all([promise1, promise2]).then((results) =>
+    console.log("Results:", results)
+  );
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -444,7 +885,11 @@ function exercise_19() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
+  const promise1 = sleep(2000).then(() => "First Promise");
+  const promise2 = sleep(1000).then(() => "Second Promise");
+  Promise.race([promise1, promise2]).then((result) =>
+    console.log("First to finish:", result)
+  );
 
   // CODE IN THE OPEN LINES ABOVE
 }
@@ -471,7 +916,8 @@ function exercise_20() {
   */
   // CODE IN THE OPEN LINES BELOW
 
-  let placeholder = "Delete me and code here";
-
+  Promise.allSettled(promiseList).then((results) =>
+    console.log("All Settled Results:", results)
+  );
   // CODE IN THE OPEN LINES ABOVE
 }
